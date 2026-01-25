@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Channabasavaswami Mathad | Minimal Portfolio
 
-## Getting Started
+A high-performance, minimalist personal portfolio website built with modern web technologies. This project showcases my skills, experience, and projects as a Full-Stack Web Developer.
 
-First, run the development server:
+## 🚀 Built With
+
+*   **[Next.js 15+](https://nextjs.org/)** - The React Framework for the Web (using App Router).
+*   **[React 19](https://react.dev/)** - The library for web and native user interfaces.
+*   **[Tailwind CSS v4](https://tailwindcss.com/)** - A utility-first CSS framework for rapid UI development.
+*   **[Framer Motion](https://www.framer.com/motion/)** - Production-ready motion library for React.
+*   **[React Icons](https://react-icons.github.io/react-icons/)** - Popular icons in your React projects.
+*   **[Node Mailjet](https://www.npmjs.com/package/node-mailjet)** - Email delivery service for the contact form.
+
+## ✨ Features
+
+*   **Responsive Design:** Fully responsive layout ensuring a seamless experience across all devices (Mobile, Tablet, Desktop).
+*   **Dark/Light Mode:** (Ready for implementation via Tailwind/Next-Themes).
+*   **SEO Optimized:** Built-in SEO best practices including `sitemap.xml`, `robots.txt`, and structured data (JSON-LD).
+*   **Performance:** Optimized for speed and Core Web Vitals using Next.js features like Image Optimization and Server Components.
+*   **Dynamic Animations:** Smooth page transitions and element reveals using Framer Motion.
+*   **Contact Form:** Functional contact form integrated with Mailjet API.
+
+## 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+├── app/                  # Next.js App Router directory
+│   ├── api/              # API routes (e.g., contact form handler)
+│   ├── layout.js         # Root layout with font and metadata settings
+│   ├── page.js           # Main landing page assembling all sections
+│   ├── globals.css       # Global styles and Tailwind directives
+├── components/           # Reusable UI components
+│   ├── layout/           # Layout components (Header, Footer)
+│   ├── sections/         # Page sections (Hero, About, Skills, Work, etc.)
+│   └── ui/               # Generic UI elements (Buttons, Cards, Inputs)
+├── public/               # Static assets (images, fonts)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Getting Started
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Follow these steps to set up the project locally:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
 
-## Learn More
+*   Node.js 18.17 or later
+*   npm (Node Package Manager)
 
-To learn more about Next.js, take a look at the following resources:
+### Installation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/channabasu2007/Portfolio.git
+    cd Portfolio
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-## Deploy on Vercel
+3.  **Set up environment variables:**
+    Create a `.env.local` file in the root directory and add your Mailjet credentials (for the contact form):
+    ```env
+    MJ_APIKEY_PUBLIC=your_public_key
+    MJ_APIKEY_PRIVATE=your_private_key
+    MJ_SENDER_EMAIL=your_verified_sender_email
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 📦 Building for Production
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+To start the production server:
+
+```bash
+npm start
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👤 Author
+
+**Channabasavaswami Mathad**
+
+*   Website: [channabasu.dev](https://channabasu.dev)
+*   GitHub: [@Channabasu2007](https://github.com/Channabasu2007)
+*   LinkedIn: [Channabasavaswami Mathad](https://linkedin.com/in/channabasumathad)
