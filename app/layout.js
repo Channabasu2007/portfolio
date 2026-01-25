@@ -19,7 +19,7 @@ export const metadata = {
   authors: [{ name: "Channabasavaswami Mathad", url: "https://channabasu.dev" }],
   creator: "Channabasavaswami Mathad",
   openGraph: {
-    title: "Channabasavaswami Mathad | Minimal Portfolio",
+    title: "Channabasavaswami Mathad",
     description: "Full-Stack Web Developer crafting scalable applications with Next.js and AI.",
     url: "https://channabasu.dev",
     siteName: "Channabasavaswami Mathad Portfolio",
@@ -28,7 +28,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Channabasavaswami Mathad | Minimal Portfolio",
+    title: "Channabasavaswami Mathad ",
     description: "Full-Stack Web Developer crafting scalable applications with Next.js and AI.",
     creator: "@Channabasu34", // Based on Header.jsx
   },
