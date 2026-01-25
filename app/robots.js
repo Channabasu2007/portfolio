@@ -6,6 +6,6 @@ export default function robots() {
             userAgent: "*",
             allow: "/",
         },
-        sitemap: "https://channabasu.dev/sitemap.xml",
+        sitemap: "https://channabasumathad.vercel.app/sitemap.xml",
     };
 }

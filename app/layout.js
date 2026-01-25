@@ -9,19 +9,19 @@ const inter = Inter({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://channabasu.dev"),
+  metadataBase: new URL("https://channabasumathad.vercel.app"),
   title: {
     default: "Channabasavaswami Mathad | Minimal Portfolio",
     template: "%s | Channabasavaswami Mathad",
   },
   description: "Full-Stack Web Developer crafting scalable applications with Next.js and AI.",
   keywords: ["Full-Stack Developer", "Web Developer", "Next.js", "React", "AI", "Portfolio", "Channabasavaswami Mathad"],
-  authors: [{ name: "Channabasavaswami Mathad", url: "https://channabasu.dev" }],
+  authors: [{ name: "Channabasavaswami Mathad", url: "https://channabasumathad.vercel.app" }],
   creator: "Channabasavaswami Mathad",
   openGraph: {
     title: "Channabasavaswami Mathad",
     description: "Full-Stack Web Developer crafting scalable applications with Next.js and AI.",
-    url: "https://channabasu.dev",
+    url: "https://channabasumathad.vercel.app",
     siteName: "Channabasavaswami Mathad Portfolio",
     locale: "en_US",
     type: "website",

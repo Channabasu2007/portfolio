@@ -94,7 +94,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Channabasavaswami Mathad**
 
-*   Website: [channabasu.dev](https://channabasu.dev)
+*   Website: [channabasumathad.vercel.app](https://channabasumathad.vercel.app)
 *   GitHub: [@Channabasu2007](https://github.com/Channabasu2007)
 *   LinkedIn: [Channabasavaswami Mathad](https://linkedin.com/in/channabasumathad)
 

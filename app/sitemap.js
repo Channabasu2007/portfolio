@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap() {
-    const baseUrl = "https://channabasu.dev"; // replace with your real domain
+    const baseUrl = "https://channabasumathad.vercel.app";
 
     return [
         {
