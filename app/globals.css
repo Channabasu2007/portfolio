@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #FACC15;
+  --color-primary-dark: #EAB308;
+  --color-background: #FFFCF8;
+  --color-text-main: #171717;
+  --color-text-muted: #525252;
+  --color-text-light: #737373;
+  --color-input-bg: #F5F5F5;
+  
+  --font-sans: var(--font-inter), sans-serif;
+  
+  --spacing-18: 4.5rem;
+  
+  --max-width-column: 700px;
+}
+
+@utility link-highlight {
+  @apply underline decoration-primary decoration-2 underline-offset-4 transition-all duration-200;
+  &:hover {
+    @apply decoration-4 bg-primary/10;
+  }
+}
+
+@utility modern-input {
+  @apply bg-input-bg border-none transition-all duration-300 focus:bg-white focus:outline-none focus:ring-0 shadow-[inset_0_0_0_1px_transparent] focus:shadow-[inset_0_0_0_1px_#FACC15];
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
