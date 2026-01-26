@@ -22,7 +22,7 @@ export const metadata = {
     title: "Channabasavaswami Mathad",
     description: "Full-Stack Web Developer crafting scalable applications with Next.js and AI.",
     url: "https://channabasumathad.vercel.app",
-    siteName: "Channabasavaswami Mathad Portfolio",
+    siteName: "Channabasavaswami Mathad",
     locale: "en_US",
     type: "website",
   },

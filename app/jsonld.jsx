@@ -33,7 +33,7 @@ export function JsonLd() {
                 "@type": "WebSite",
                 "@id": "https://channabasumathad.vercel.app/#website",
                 "url": "https://channabasumathad.vercel.app",
-                "name": "Channabasavaswami Mathad – Full-Stack Web Developer",
+                "name": "Channabasavaswami Mathad",
                 "description":
                     "Portfolio of Channabasavaswami Mathad, a Full-Stack Web Developer building scalable and SEO-optimized web applications using Next.js and AI.",
                 "publisher": {
