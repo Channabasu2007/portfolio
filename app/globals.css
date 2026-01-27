@@ -1,6 +1,10 @@
 @import "tailwindcss";
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
 
-@theme {
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
   --color-primary: #FACC15;
   --color-primary-dark: #EAB308;
   --color-background: #FFFCF8;
@@ -8,6 +12,27 @@
   --color-text-muted: #525252;
   --color-text-light: #737373;
   --color-input-bg: #F5F5F5;
+  
+  --font-inter: "Inter", sans-serif; /* fallback */
+}
+
+.dark {
+  --color-background: #0a0a0a;
+  --color-text-main: #ededed;
+  --color-text-muted: #a3a3a3;
+  --color-text-light: #737373;
+  --color-input-bg: #262626;
+  /* Primary colors can stay the same or be adjusted if needed */
+}
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-background: var(--color-background);
+  --color-text-main: var(--color-text-main);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-light: var(--color-text-light);
+  --color-input-bg: var(--color-input-bg);
   
   --font-sans: var(--font-inter), sans-serif;
   
@@ -24,7 +49,7 @@
 }
 
 @utility modern-input {
-  @apply bg-input-bg border-none transition-all duration-300 focus:bg-white focus:outline-none focus:ring-0 shadow-[inset_0_0_0_1px_transparent] focus:shadow-[inset_0_0_0_1px_#FACC15];
+  @apply bg-input-bg border-none transition-all duration-300 focus:bg-white dark:focus:bg-neutral-800 focus:outline-none focus:ring-0 shadow-[inset_0_0_0_1px_transparent] focus:shadow-[inset_0_0_0_1px_#FACC15];
 }
 
 @layer base {

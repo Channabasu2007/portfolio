@@ -59,7 +59,7 @@ export function Contact() {
             <Section id="contact" borderTop className="mb-12">
                 <div className="grid grid-cols-1 gap-8">
                     <div className="w-full text-center mb-8">
-                        <h2 className="text-xs font-semibold text-text-light uppercase tracking-widest mb-4">
+                        <h2 className="text-xs font-semibold text-text-light dark:text-neutral-400 uppercase tracking-widest mb-4">
                             Contact
                         </h2>
                         <p className="text-text-muted text-lg font-light leading-relaxed max-w-lg mx-auto">
