@@ -8,8 +8,8 @@ export async function POST(request) {
         // We will stick to the previous default: admin / admin123
         // But we should try to read from env first.
 
-        const validUsername = process.env.ADMIN_USERNAME || "admin";
-        const validPassword = process.env.ADMIN_PASSWORD || "admin123";
+        const validUsername = process.env.ADMIN_USERNAME ;
+        const validPassword = process.env.ADMIN_PASSWORD ;
 
         if (username === validUsername && password === validPassword) {
             // Create a response
