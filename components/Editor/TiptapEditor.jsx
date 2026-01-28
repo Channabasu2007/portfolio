@@ -9,7 +9,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { common, createLowlight } from 'lowlight';
 import { Bold, Italic, List, Heading1, Heading2, ImageIcon, Code as CodeIcon, Quote } from 'lucide-react';
-import { useCallback } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import { useDialogs } from '@/components/ui/Dialogs';
 
 const lowlight = createLowlight(common);
@@ -91,6 +91,12 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
     // Use prop onShowPrompt if available (from parent to share dialogs), otherwise local
     const promptHandler = onShowPrompt || showPrompt;
 
+    // Use a ref for onChange to avoid stale closures in useEditor without re-initializing it
+    const onChangeRef = useRef(onChange);
+    useEffect(() => {
+        onChangeRef.current = onChange;
+    }, [onChange]);
+
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -117,7 +123,8 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
         content: content || '',
         editable: editable,
         onUpdate: ({ editor }) => {
-            onChange(editor.getHTML());
+            // Always call the latest version of the function
+            onChangeRef.current?.(editor.getHTML());
         },
         editorProps: {
             attributes: {
@@ -125,7 +132,7 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
             },
         },
         immediatelyRender: false,
-    });
+    }, [editable]);
 
     const addImage = useCallback(async () => {
         if (!editor) return;

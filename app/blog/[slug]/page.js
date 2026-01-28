@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const post = getPostData(slug) || getAllPosts().find((p) => p.slug === slug);
+  const post = await getPostData(slug) || (await getAllPosts()).find((p) => p.slug === slug);
 
   if (post) {
     const title = `${post.title} | Channabasavaswami Mathad`;
@@ -19,7 +19,12 @@ export async function generateMetadata({ params }) {
     return {
       title,
       description,
-      keywords: post.tags && post.tags.length ? post.tags : undefined,
+      keywords: [
+        ...(post.tags || []),
+        "Channabasu Mathad",
+        "Channabasu blogs",
+        "Channabasavaswami Mathad"
+      ],
       alternates: {
         canonical: `/blog/${post.slug}`,
       },
@@ -47,10 +52,10 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPostPage({ params }) {
   const { slug } = await params;
-  let post = getPostData(slug);
+  let post = await getPostData(slug);
 
   if (!post) {
-    const all = getAllPosts();
+    const all = await getAllPosts();
     const found = all.find((p) => p.slug === slug);
     if (found) post = found;
     else notFound();

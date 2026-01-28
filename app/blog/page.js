@@ -4,13 +4,14 @@ import { Footer } from "@/components/layout/Footer";
 import BlogList from "@/components/Blog/BlogList";
 
 export const metadata = {
-  title: "Blog | Channabasavaswami Mathad",
+  title: "Channabasu Mathad's Blog | Web Development & AI",
   description:
-    "Minimal, focused articles on web development, design systems, and AI by Channabasavaswami Mathad.",
+    "Insights by Channabasavaswami Mathad (Channabasu). Minimal, practical articles on modern web development, Next.js, and design engineering.",
+  keywords: ["Channabasu blogs", "Channabasavaswami blogs", "Web Development Blog", "Next.js Tutorials"],
 };
 
-export default function BlogIndexPage() {
-  const posts = getAllPosts();
+export default async function BlogIndexPage() {
+  const posts = await getAllPosts();
 
   return (
     <>

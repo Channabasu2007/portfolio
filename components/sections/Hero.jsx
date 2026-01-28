@@ -1,9 +1,14 @@
+"use client";
+
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 
 export function Hero() {
     return (
-        <Section id="home">
+        <Section id="home" className="relative">
+            {/* Ambient Background Element - Light type shade */}
+            <div className="absolute -top-24 -left-24 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl -z-10 pointer-events-none mix-blend-multiply dark:mix-blend-screen opacity-50" />
+
             <div className="flex items-center gap-3 mb-8">
                 <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
                 <span className="text-xs font-medium text-text-light uppercase tracking-widest">

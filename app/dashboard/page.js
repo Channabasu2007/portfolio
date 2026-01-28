@@ -5,8 +5,8 @@ import DeleteButton from '@/components/Dashboard/DeleteButton'; // We'll make th
 
 export const dynamic = 'force-dynamic'; // Ensure we get fresh data on every load
 
-export default function DashboardPage() {
-    const posts = getAllPosts();
+export default async function DashboardPage() {
+    const posts = await getAllPosts();
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500 w-full mx-auto p-6 md:p-8">

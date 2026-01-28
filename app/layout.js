@@ -1,7 +1,8 @@
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
-import { JsonLd } from "./jsonld";
+import { jsonLd } from "./jsonld";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -9,29 +10,58 @@ const inter = Inter({
   display: "swap",
 });
 
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
 export const metadata = {
   metadataBase: new URL("https://channabasumathad.vercel.app"),
   title: {
-    default: "Channabasavaswami Mathad | Minimal Portfolio",
-    template: "%s | Channabasavaswami Mathad",
+    default: "Channabasu Mathad | Full Stack Developer & Designer",
+    template: "%s | Channabasu Mathad",
   },
-  description: "Full-Stack Web Developer crafting scalable applications with Next.js, React, and Modern UI.",
-  keywords: ["Full-Stack Developer", "Web Developer", "Next.js", "React", "JavaScript", "Frontend Engineer", "Portfolio", "Channabasavaswami Mathad"],
-  authors: [{ name: "Channabasavaswami Mathad", url: "https://channabasumathad.vercel.app" }],
-  creator: "Channabasavaswami Mathad",
+  description: "Portfolio of Channabasavaswami Mathad (Channabasu). Full-Stack Web Developer building scalable applications with Next.js, React, and Modern UI.",
+  keywords: [
+    "Channabasu Mathad",
+    "Channabasavaswami Mathad",
+    "Channabasu",
+    "Channabasavaswami",
+    "Channabasu blogs",
+    "Channabasavaswami blogs",
+    "Full-Stack Developer",
+    "Web Developer",
+    "Next.js",
+    "React",
+    "Frontend Engineer"
+  ],
+  authors: [{ name: "Channabasu Mathad", url: "https://channabasumathad.vercel.app" }],
+  creator: "Channabasu Mathad",
   openGraph: {
-    title: "Channabasavaswami Mathad",
+    title: "Channabasavaswami Mathad (Channabasu)",
     description: "Full-Stack Web Developer crafting scalable applications with Next.js and Modern UI.",
     url: "https://channabasumathad.vercel.app",
-    siteName: "Channabasavaswami Mathad",
+    siteName: "Channabasu Mathad",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Channabasavaswami Mathad ",
-    description: "Full-Stack Web Developer crafting scalable applications with Next.js and Modern UI.",
-    creator: "@Channabasu34", // Based on Header.jsx
+    title: "Channabasu Mathad | Full Stack Developer",
+    description: "Building the future of web with Next.js and AI.",
+    creator: "@Channabasu34",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  alternates: {
+    canonical: "https://channabasumathad.vercel.app",
   },
   icons: {
     icon: "/favicon.ico",
@@ -39,15 +69,37 @@ export const metadata = {
   verification: {
     google: "google0dffc99f309e6efa",
   },
+  other: {
+    "application/ld+json": JSON.stringify(jsonLd),
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <JsonLd />
+        {/* Google Tag Manager */}
+        <Script id="google-tag-manager" strategy="beforeInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-K9BHHGZ2');
+          `}
+        </Script>
       </head>
-      <body className={`${inter.variable} font-sans bg-background text-text-main antialiased flex flex-col items-center min-h-screen selection:bg-primary selection:text-black`}>
+      <body className={`${inter.variable} ${outfit.variable} font-sans bg-background text-text-main antialiased flex flex-col items-center min-h-screen selection:bg-primary selection:text-black`}>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-K9BHHGZ2"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>

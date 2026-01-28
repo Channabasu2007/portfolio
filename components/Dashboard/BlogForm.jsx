@@ -89,7 +89,16 @@ export default function BlogForm({ initialData = {} }) {
                         type="text"
                         placeholder="Untitled Post"
                         value={formData.title}
-                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        onChange={(e) => {
+                            const newTitle = e.target.value;
+                            const asSlug = newTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
+                            setFormData(prev => ({
+                                ...prev,
+                                title: newTitle,
+                                slug: (!prev.slug || prev.slug === prev.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')) ? asSlug : prev.slug
+                            }));
+                        }}
                         className="bg-transparent text-xl md:text-2xl font-bold text-text-main placeholder-text-muted/50 focus:outline-none w-full max-w-2xl"
                         required
                     />
@@ -140,7 +149,7 @@ export default function BlogForm({ initialData = {} }) {
                     <div className="w-full h-full">
                         <Tiptap
                             content={formData.content}
-                            onChange={(content) => setFormData({ ...formData, content })}
+                            onChange={(content) => setFormData(prev => ({ ...prev, content }))}
                             onShowPrompt={showPrompt}
                         />
                     </div>

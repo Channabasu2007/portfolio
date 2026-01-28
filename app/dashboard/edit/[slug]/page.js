@@ -12,7 +12,7 @@ export default async function EditBlogPage({ params }) {
     // The route is /dashboard/edit/[slug]. 
     // In lib/blog.js -> getPostData(id) looks for {id}.json.
 
-    const post = getPostData(slug);
+    const post = await getPostData(slug);
 
     if (!post) {
         return <div>Post not found</div>;

@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { getAllPosts } from '@/lib/blog';
 import { ArrowRight } from 'lucide-react';
 
-export function FeaturedBlogs() {
-    const allPosts = getAllPosts();
+export async function FeaturedBlogs() {
+    const allPosts = await getAllPosts();
     // Prioritize featured posts, then fallback to date
     const featuredPosts = allPosts.filter(post => post.featured);
     const otherPosts = allPosts.filter(post => !post.featured);
@@ -26,7 +26,7 @@ export function FeaturedBlogs() {
             <div className="grid md:grid-cols-3 gap-8">
                 {posts.map((post) => (
                     <Link key={post.id} href={`/blog/${post.slug}`} className="group block h-full">
-                        <article className="flex flex-col h-full p-1 rounded-2xl hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors">
+                        <article className="flex flex-col h-full p-1 rounded-2xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors">
                             {/* Card Image - Optional but good for 'top 3' */}
                             {post.coverImage && (
                                 <div className="aspect-[16/9] w-full overflow-hidden rounded-xl mb-4 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-800">

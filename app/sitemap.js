@@ -2,9 +2,9 @@ import { MetadataRoute } from "next";
 
 import { getAllPosts } from "@/lib/blog";
 
-export default function sitemap() {
+export default async function sitemap() {
     const baseUrl = "https://channabasumathad.vercel.app";
-    const posts = getAllPosts();
+    const posts = await getAllPosts();
 
     const blogEntries = posts.map((post) => ({
         url: `${baseUrl}/blog/${post.slug}`,
