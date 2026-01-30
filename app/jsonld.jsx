@@ -5,8 +5,13 @@ export const jsonLd = {
             "@type": "Person",
             "@id": "https://channabasumathad.vercel.app/#person",
             "name": "Channabasavaswami Mathad",
-            "alternateName": ["Channabasu Mathad", "Channabasu", "Channabasavaswami"],
+            "alternateName": [
+                "Channabasu Mathad",
+                "Channabasu",
+                "Channabasavaswami"
+            ],
             "url": "https://channabasumathad.vercel.app",
+            "image": "https://channabasumathad.vercel.app/opengraph-image",
             "jobTitle": "Full-Stack Web Developer",
             "description":
                 "Full-Stack Web Developer specializing in Next.js, React, and AI-powered web applications.",
@@ -27,6 +32,9 @@ export const jsonLd = {
             "affiliation": {
                 "@type": "CollegeOrUniversity",
                 "name": "PES University"
+            },
+            "mainEntityOfPage": {
+                "@id": "https://channabasumathad.vercel.app/"
             }
         },
         {
@@ -38,6 +46,12 @@ export const jsonLd = {
                 "Portfolio of Channabasavaswami Mathad, a Full-Stack Web Developer building scalable and SEO-optimized web applications using Next.js and AI.",
             "publisher": {
                 "@id": "https://channabasumathad.vercel.app/#person"
+            },
+            "inLanguage": "en-IN",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://channabasumathad.vercel.app/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
             }
         }
     ]

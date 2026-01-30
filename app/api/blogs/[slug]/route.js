@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getPostData, savePost, deletePost } from '@/lib/blog';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request, { params }) {
     const { slug } = await params;
     // Note: in our file system implementation, we are using ID as filename but user might ask by slug.

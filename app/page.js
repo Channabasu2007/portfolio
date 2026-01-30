@@ -9,6 +9,8 @@ import { Experience } from "@/components/sections/Experience";
 import { Contact } from "@/components/sections/Contact";
 import { FeaturedBlogs } from "@/components/sections/FeaturedBlogs";
 
+export const revalidate = 60;
+
 export const metadata = {
   title: "Channabasu Mathad - Full Stack Developer",
   description: "Welcome to the portfolio of Channabasavaswami Mathad (Channabasu). Explore projects, skills, and thoughts on web development.",

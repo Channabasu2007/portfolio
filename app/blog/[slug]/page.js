@@ -5,25 +5,25 @@ import ShareButtons from "@/components/Blog/ShareButtons";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
+// ... (keeping existing imports)
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = await getPostData(slug) || (await getAllPosts()).find((p) => p.slug === slug);
 
   if (post) {
     const title = `${post.title} | Channabasavaswami Mathad`;
-    const description =
-      post.description || "Article by Channabasavaswami Mathad";
-    const coverImageAlt =
-      post.coverImageAlt || `${post.title} - Channabasavaswami Mathad`;
+    const description = post.description || "Article by Channabasavaswami Mathad";
 
     return {
       title,
       description,
+      authors: [{ name: "Channabasavaswami Mathad", url: "https://channabasumathad.vercel.app" }],
       keywords: [
         ...(post.tags || []),
         "Channabasu Mathad",
-        "Channabasu blogs",
-        "Channabasavaswami Mathad"
+        "Channabasavaswami Mathad",
+        "Full Stack Developer"
       ],
       alternates: {
         canonical: `/blog/${post.slug}`,
@@ -33,16 +33,16 @@ export async function generateMetadata({ params }) {
         description,
         type: "article",
         publishedTime: post.date,
+        authors: ["Channabasavaswami Mathad"],
         images: post.coverImage
-          ? [{ url: post.coverImage, alt: coverImageAlt }]
-          : [],
+          ? [{ url: post.coverImage, alt: post.title }]
+          : [], // Could add author image here too but usually cover is preferred for sharing
         siteName: "Channabasavaswami Mathad",
       },
       twitter: {
         card: "summary_large_image",
         title,
         description,
-        creator: "@Channabasu34",
         images: post.coverImage ? [post.coverImage] : [],
       },
     };
@@ -62,14 +62,15 @@ export default async function BlogPostPage({ params }) {
   }
 
   const publishedDate = new Date(post.date);
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://channabasumathad.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://channabasumathad.vercel.app";
   const url = `${baseUrl}/blog/${post.slug}`;
+  const authorImage = "/Channabasumathad.jpg";
+  const authorName = "Channabasavaswami Mathad";
 
   return (
     <>
       <Header />
-      <main className="w-full min-h-screen bg-background text-text-main  pb-24">
+      <main className="w-full min-h-screen bg-background text-text-main pb-24">
         {/* Article JSON-LD for SEO */}
         <script
           type="application/ld+json"
@@ -78,14 +79,13 @@ export default async function BlogPostPage({ params }) {
               "@context": "https://schema.org",
               "@type": "Article",
               headline: post.title,
-              description:
-                post.description ||
-                "Article by Channabasavaswami Mathad on web development and AI.",
+              description: post.description || "Article by Channabasavaswami Mathad.",
               datePublished: post.date,
               author: {
                 "@type": "Person",
-                name: "Channabasavaswami Mathad",
+                name: authorName,
                 url: baseUrl,
+                image: `${baseUrl}${authorImage}`
               },
               image: post.coverImage ? [post.coverImage] : undefined,
               url,
@@ -96,7 +96,7 @@ export default async function BlogPostPage({ params }) {
 
         {/* Hero Section */}
         <div className="pt-32 pb-10 px-6">
-          <div className="max-w-column mx-auto space-y-6">
+          <div className="max-w-column mx-auto space-y-8">
             <Link
               href="/blog"
               className="inline-flex items-center text-xs font-medium text-text-muted hover:text-text-main transition-colors"
@@ -104,8 +104,23 @@ export default async function BlogPostPage({ params }) {
               ← Back to all writing
             </Link>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.25em] text-text-muted">
+            <div className="space-y-6">
+              {/* Author Byline */}
+              <div className="flex items-center gap-3">
+                <div className="relative w-14 h-14 rounded-full overflow-hidden border border-neutral-200 dark:border-neutral-800">
+                  <img
+                    src={authorImage}
+                    alt={authorName}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-base font-medium text-text-main">{authorName}</span>
+                  <a href="https://linkedin.com/in/channabasumathad" target="_blank" rel="noopener noreferrer" className="text-sm text-text-muted hover:text-[#0077b5] transition-colors">Connect on LinkedIn</a>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.25em] text-text-muted pt-2 border-t border-neutral-100 dark:border-neutral-800/50">
                 <time dateTime={post.date}>
                   {publishedDate.toLocaleDateString(undefined, {
                     year: "numeric",
