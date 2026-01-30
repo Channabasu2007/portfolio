@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import ShareButtons from "@/components/Blog/ShareButtons";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 // ... (keeping existing imports)
 
@@ -108,10 +109,12 @@ export default async function BlogPostPage({ params }) {
               {/* Author Byline */}
               <div className="flex items-center gap-3">
                 <div className="relative w-14 h-14 rounded-full overflow-hidden border border-neutral-200 dark:border-neutral-800">
-                  <img
+                  <Image
                     src={authorImage}
                     alt={authorName}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
                 <div className="flex flex-col">
