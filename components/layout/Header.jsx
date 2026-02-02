@@ -110,54 +110,78 @@ export function Header() {
                     {isOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
             </div>
+{/* Mobile Menu Overlay */}
+<AnimatePresence>
+    {isOpen && (
+        <>
+            {/* 1. The Backdrop: This blurs the surroundings */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsOpen(false)}
+                className="fixed inset-0 z-40 bg-black/60 backdrop-blur-md md:hidden"
+            />
 
-            {/* Mobile Menu Overlay */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.2 }}
-                        className="fixed inset-0 top-0 z-40 bg-white/95 dark:bg-black/95 backdrop-blur-3xl md:hidden flex flex-col pt-28 px-6"
-                    >
-                        <nav className="flex flex-col gap-6">
-                            <Link
-                                href="/blog"
-                                className="text-2xl font-bold text-text-main"
-                            >
-                                Read Blog
-                            </Link>
+            {/* 2. The Menu: Solid and opaque */}
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                className="fixed top-24 left-4 right-4 z-50 flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:border-neutral-800 dark:bg-neutral-950 md:hidden"
+            >
+                <nav className="flex flex-col p-6">
+                    {/* Navigation Section */}
+                    <div className="mb-8">
+                        <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400">Navigation</p>
+                        <Link
+                            href="/blog"
+                            className={clsx(
+                                "flex items-center justify-between rounded-xl px-4 py-4 text-xl font-bold transition-all active:scale-[0.98]",
+                                isBlog 
+                                    ? "bg-neutral-900 text-white dark:bg-white dark:text-black" 
+                                    : "bg-neutral-100 dark:bg-neutral-900 text-text-main"
+                            )}
+                        >
+                            Read My Blog
+                            <span className="text-lg opacity-50">→</span>
+                        </Link>
+                    </div>
 
-                            <div className="h-px bg-neutral-100 dark:bg-neutral-800 w-full" />
+                    {/* Socials Grid */}
+                    <div className="mb-8">
+                        <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400">Find me on</p>
+                        <div className="grid grid-cols-4 gap-3">
+                            {socialLinks.map((link) => (
+                                <a
+                                    key={link.name}
+                                    href={link.href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="flex aspect-square items-center justify-center rounded-2xl bg-neutral-100 text-2xl text-text-main transition-transform active:scale-90 dark:bg-neutral-900"
+                                >
+                                    <link.icon />
+                                </a>
+                            ))}
+                        </div>
+                    </div>
 
-                            <div className="flex flex-col gap-4">
-                                <span className="text-sm font-medium text-text-muted uppercase tracking-wider">Socials</span>
-                                <div className="flex gap-4">
-                                    {socialLinks.map((link) => (
-                                        <a
-                                            key={link.name}
-                                            href={link.href}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="p-3 bg-neutral-100 dark:bg-neutral-900 rounded-xl text-2xl text-text-main"
-                                        >
-                                            <link.icon />
-                                        </a>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="h-px bg-neutral-100 dark:bg-neutral-800 w-full" />
-
-                            <div className="flex items-center justify-between">
-                                <span className="text-lg font-medium text-text-main">Appearance</span>
-                                <ThemeToggle />
-                            </div>
-                        </nav>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    {/* Footer / Theme Toggle */}
+                    <div className="flex items-center justify-between border-t border-neutral-100 pt-6 dark:border-neutral-900">
+                        <div>
+                            <span className="block text-sm font-bold">Theme</span>
+                            <span className="block text-xs text-neutral-500">Light / Dark mode</span>
+                        </div>
+                        <div className="scale-110">
+                            <ThemeToggle />
+                        </div>
+                    </div>
+                </nav>
+            </motion.div>
+        </>
+    )}
+</AnimatePresence>
         </header>
     );
 }
