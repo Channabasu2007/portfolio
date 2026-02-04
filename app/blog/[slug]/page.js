@@ -62,6 +62,10 @@ export default async function BlogPostPage({ params }) {
     else notFound();
   }
 
+  if (post.visibility === 'private') {
+    notFound();
+  }
+
   const publishedDate = new Date(post.date);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://channabasumathad.vercel.app";
   const url = `${baseUrl}/blog/${post.slug}`;

@@ -22,6 +22,7 @@ export default function BlogForm({ initialData = {} }) {
         id: initialData.id || null,
         slug: initialData.slug || '',
         featured: initialData.featured || false,
+        visibility: initialData.visibility || 'public',
     });
 
     // Calculate stats
@@ -175,6 +176,26 @@ export default function BlogForm({ initialData = {} }) {
                                     </div>
                                 </div>
 
+                                <div className="flex items-center justify-between">
+                                    <label className="text-sm font-medium text-text-muted">Visibility</label>
+                                    <div className="flex bg-input-bg p-1 rounded-lg border border-neutral-200 dark:border-neutral-700">
+                                        <button
+                                            type="button"
+                                            onClick={() => setFormData({ ...formData, visibility: 'public' })}
+                                            className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${formData.visibility === 'public' ? 'bg-white dark:bg-neutral-600 text-text-main shadow-sm' : 'text-text-muted hover:text-text-main'}`}
+                                        >
+                                            Public
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setFormData({ ...formData, visibility: 'private' })}
+                                            className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${formData.visibility === 'private' ? 'bg-white dark:bg-neutral-600 text-text-main shadow-sm' : 'text-text-muted hover:text-text-main'}`}
+                                        >
+                                            Private
+                                        </button>
+                                    </div>
+                                </div>
+
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium text-text-muted">URL Slug</label>
                                     <div className="flex items-center bg-input-bg rounded-lg border border-neutral-200 dark:border-neutral-700 px-3">
@@ -261,7 +282,7 @@ export default function BlogForm({ initialData = {} }) {
                         </div>
                     </div>
                 </div>
-            </form>
+            </form >
         </>
     );
 }

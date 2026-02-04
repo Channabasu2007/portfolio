@@ -13,7 +13,8 @@ export const metadata = {
 };
 
 export default async function BlogIndexPage() {
-  const posts = await getAllPosts();
+  const allPosts = await getAllPosts();
+  const posts = allPosts.filter(post => post.visibility === 'public');
 
   return (
     <>
@@ -28,8 +29,7 @@ export default async function BlogIndexPage() {
               Thoughts on building with the web and AI.
             </h1>
             <p className="text-sm md:text-base text-text-light max-w-xl leading-relaxed">
-              Short, practical notes from projects I&apos;m shipping. No fluff,
-              just what actually worked.
+              From concept to commit. Practical insights from the projects I ship.
             </p>
           </header>
 

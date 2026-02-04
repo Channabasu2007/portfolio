@@ -40,6 +40,11 @@ const PostSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    visibility: {
+        type: String,
+        enum: ['public', 'private'],
+        default: 'public',
+    },
 });
 
 export default mongoose.models.Post || mongoose.model('Post', PostSchema);

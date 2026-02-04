@@ -14,6 +14,7 @@ export function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
     const isBlog = pathname?.startsWith("/blog");
+    const isOnBlogIndex = pathname === "/blog";
 
     // Close menu when route changes
     useEffect(() => {
@@ -71,17 +72,19 @@ export function Header() {
 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center gap-2 md:gap-4">
-                    <Link
-                        href="/blog"
-                        className={clsx(
-                            "text-sm font-medium px-4 py-2 rounded-full transition-colors mr-2 border border-transparent",
-                            isBlog
-                                ? "bg-neutral-900 text-white dark:bg-white dark:text-black shadow-sm"
-                                : "bg-neutral-100 dark:bg-neutral-800 text-text-main hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600"
-                        )}
-                    >
-                        Blog
-                    </Link>
+                    {!isOnBlogIndex && (
+                        <Link
+                            href="/blog"
+                            className={clsx(
+                                "text-sm font-medium px-4 py-2 rounded-full transition-colors mr-2 border border-transparent",
+                                isBlog
+                                    ? "bg-neutral-900 text-white dark:bg-white dark:text-black shadow-sm"
+                                    : "bg-neutral-100 dark:bg-neutral-800 text-text-main hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600"
+                            )}
+                        >
+                            Blog
+                        </Link>
+                    )}
                     {socialLinks.map((link) => (
                         <a
                             key={link.name}
@@ -105,83 +108,80 @@ export function Header() {
                 {/* Mobile Toggle */}
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="md:hidden p-2 text-text-main z-50 relative hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-colors"
+                    className="md:hidden p-2 text-text-main z-[60] relative hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-colors"
                 >
                     {isOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
             </div>
-{/* Mobile Menu Overlay */}
-<AnimatePresence>
-    {isOpen && (
-        <>
-            {/* 1. The Backdrop: This blurs the surroundings */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsOpen(false)}
-                className="fixed inset-0 z-40 bg-black/60 backdrop-blur-md md:hidden"
-            />
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        {/* 1. The Backdrop: This blurs the surroundings */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsOpen(false)}
+                            className="fixed top-20 inset-x-0 bottom-0 z-40 bg-black/60 backdrop-blur-md md:hidden"
+                        />
 
-            {/* 2. The Menu: Solid and opaque */}
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="fixed top-24 left-4 right-4 z-50 flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:border-neutral-800 dark:bg-neutral-950 md:hidden"
-            >
-                <nav className="flex flex-col p-6">
-                    {/* Navigation Section */}
-                    <div className="mb-8">
-                        <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400">Navigation</p>
-                        <Link
-                            href="/blog"
-                            className={clsx(
-                                "flex items-center justify-between rounded-xl px-4 py-4 text-xl font-bold transition-all active:scale-[0.98]",
-                                isBlog 
-                                    ? "bg-neutral-900 text-white dark:bg-white dark:text-black" 
-                                    : "bg-neutral-100 dark:bg-neutral-900 text-text-main"
-                            )}
+                        {/* 2. The Menu: Solid and opaque */}
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            className="fixed top-24 left-4 right-4 z-50 flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:border-neutral-800 dark:bg-neutral-950 md:hidden"
                         >
-                            Read My Blog
-                            <span className="text-lg opacity-50">→</span>
-                        </Link>
-                    </div>
+                            <nav className="flex flex-col p-6">
+                                {/* Navigation Section */}
+                                {!isOnBlogIndex && (
+                                    <div className="mb-8">
+                                        <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400">Navigation</p>
+                                        <Link
+                                            href="/blog"
+                                            className="flex items-center justify-between rounded-xl px-4 py-4 text-xl font-bold transition-all active:scale-[0.98] bg-primary text-black"
+                                        >
+                                            Read My Blog
+                                            <span className="text-lg opacity-50">→</span>
+                                        </Link>
+                                    </div>
+                                )}
 
-                    {/* Socials Grid */}
-                    <div className="mb-8">
-                        <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400">Find me on</p>
-                        <div className="grid grid-cols-4 gap-3">
-                            {socialLinks.map((link) => (
-                                <a
-                                    key={link.name}
-                                    href={link.href}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="flex aspect-square items-center justify-center rounded-2xl bg-neutral-100 text-2xl text-text-main transition-transform active:scale-90 dark:bg-neutral-900"
-                                >
-                                    <link.icon />
-                                </a>
-                            ))}
-                        </div>
-                    </div>
+                                {/* Socials Grid */}
+                                <div className="mb-8">
+                                    <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400">Find me on</p>
+                                    <div className="grid grid-cols-4 gap-3">
+                                        {socialLinks.map((link) => (
+                                            <a
+                                                key={link.name}
+                                                href={link.href}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="flex aspect-square items-center justify-center rounded-2xl bg-neutral-100 text-2xl text-text-main transition-transform active:scale-90 dark:bg-neutral-900"
+                                            >
+                                                <link.icon />
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
 
-                    {/* Footer / Theme Toggle */}
-                    <div className="flex items-center justify-between border-t border-neutral-100 pt-6 dark:border-neutral-900">
-                        <div>
-                            <span className="block text-sm font-bold">Theme</span>
-                            <span className="block text-xs text-neutral-500">Light / Dark mode</span>
-                        </div>
-                        <div className="scale-110">
-                            <ThemeToggle />
-                        </div>
-                    </div>
-                </nav>
-            </motion.div>
-        </>
-    )}
-</AnimatePresence>
+                                {/* Footer / Theme Toggle */}
+                                <div className="flex items-center justify-between border-t border-neutral-100 pt-6 dark:border-neutral-900">
+                                    <div>
+                                        <span className="block text-sm font-bold">Theme</span>
+                                        <span className="block text-xs text-neutral-500">Light / Dark mode</span>
+                                    </div>
+                                    <div className="scale-110">
+                                        <ThemeToggle />
+                                    </div>
+                                </div>
+                            </nav>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
         </header>
     );
 }
