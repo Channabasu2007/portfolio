@@ -9,7 +9,7 @@ import { Experience } from "@/components/sections/Experience";
 import { Contact } from "@/components/sections/Contact";
 import { FeaturedBlogs } from "@/components/sections/FeaturedBlogs";
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: "Channabasu Mathad - Full Stack Developer",
