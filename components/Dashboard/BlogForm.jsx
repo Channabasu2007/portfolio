@@ -191,16 +191,7 @@ export default function BlogForm({ initialData = {} }) {
                             </span>
                         </div>
 
-                        {formData.id && (
-                            <Link
-                                href={`/blog/${formData.slug}`}
-                                target="_blank"
-                                className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-muted hover:bg-input-bg rounded-full transition-colors"
-                            >
-                                <Eye size={16} />
-                                Preview
-                            </Link>
-                        )}
+
 
                         <div className={`text-xs font-medium px-3 py-1 rounded-full ${formData.id ? 'bg-green-100/50 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-yellow-100/50 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
                             {autosaving ? 'Saving...' : (formData.id ? 'Published' : 'Draft')}
