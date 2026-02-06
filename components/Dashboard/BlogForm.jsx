@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import Tiptap from '@/components/Editor/TiptapEditor';
+import dynamic from 'next/dynamic';
+const Tiptap = dynamic(() => import('@/components/Editor/TiptapEditor'), { ssr: false });
 import { Save, ArrowLeft, Loader2, Image as ImageIcon, Eye, Clock, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { useDialogs } from '@/components/ui/Dialogs';
@@ -33,8 +34,72 @@ export default function BlogForm({ initialData = {} }) {
         return { wordCount, readingTime };
     }, [formData.content]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const [autosaving, setAutosaving] = useState(false);
+    const lastSavedWordCountRef = useRef(0);
+    const timeoutRef = useRef(null);
+
+    // Auto-save logic
+    const handleAutoSave = useCallback(async (currentData) => {
+        if (!currentData.title) return; // Don't auto-save without a title
+
+        setAutosaving(true);
+        try {
+            const method = currentData.id ? 'PUT' : 'POST';
+            const url = currentData.id
+                ? `/api/blogs/${currentData.id}`
+                : '/api/blogs';
+
+            const payload = {
+                ...currentData,
+                tags: typeof currentData.tags === 'string' ? currentData.tags.split(',').map(tag => tag.trim()).filter(Boolean) : currentData.tags
+            };
+
+            const res = await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+                const updated = await res.json();
+                // If it was a new post, update the ID so subsequent saves are updates
+                if (!currentData.id && updated._id) {
+                    setFormData(prev => ({ ...prev, id: updated._id, slug: updated.slug }));
+
+                    // Optional: Update URL without refresh if desirable, but might be safer to just keep state
+                    // window.history.replaceState(null, '', `/dashboard/edit/${updated._id}`);
+                }
+            }
+        } catch (error) {
+            console.error("Auto-save failed", error);
+        } finally {
+            setAutosaving(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        const text = formData.content.replace(/<[^>]*>/g, '') || '';
+        const currentWordCount = text.trim().split(/\s+/).filter(Boolean).length;
+
+        // Check if word count changed significantly (approx 6 words)
+        // Also ensure we don't save on *every* character, and only if content exists
+        if (Math.abs(currentWordCount - lastSavedWordCountRef.current) >= 6 && currentWordCount > 0) {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+            // Debounce slightly to avoid rapid-fire saves while typing quickly
+            timeoutRef.current = setTimeout(() => {
+                handleAutoSave(formData);
+                lastSavedWordCountRef.current = currentWordCount;
+            }, 1000);
+        }
+
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, [formData, handleAutoSave]);
+
+    const handleSave = async (e, visibilityStatus) => {
+        if (e) e.preventDefault();
 
         // Strict Alt Text Validation
         if (formData.coverImage && !formData.coverImageAlt.trim()) {
@@ -46,7 +111,8 @@ export default function BlogForm({ initialData = {} }) {
 
         const payload = {
             ...formData,
-            tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+            visibility: visibilityStatus, // Explicitly set visibility
+            tags: typeof formData.tags === 'string' ? formData.tags.split(',').map(tag => tag.trim()).filter(Boolean) : formData.tags
         };
 
         try {
@@ -62,8 +128,15 @@ export default function BlogForm({ initialData = {} }) {
             });
 
             if (res.ok) {
-                router.push('/dashboard');
-                router.refresh();
+                // If it's a draft, just notify. If published, redirect.
+                if (visibilityStatus === 'private') {
+                    const updated = await res.json();
+                    setFormData(prev => ({ ...prev, id: updated._id, slug: updated.slug, visibility: 'private' }));
+                    showAlert('Success', 'Draft saved successfully.');
+                } else {
+                    router.push('/dashboard');
+                    router.refresh();
+                }
             } else {
                 showAlert('Error', 'Something went wrong while saving.');
             }
@@ -130,16 +203,29 @@ export default function BlogForm({ initialData = {} }) {
                         )}
 
                         <div className={`text-xs font-medium px-3 py-1 rounded-full ${formData.id ? 'bg-green-100/50 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-yellow-100/50 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
-                            {formData.id ? 'Published' : 'Draft'}
+                            {autosaving ? 'Saving...' : (formData.id ? 'Published' : 'Draft')}
                         </div>
 
+                        {/* Save Draft Button */}
                         <button
-                            type="submit"
+                            type="button"
+                            disabled={loading}
+                            onClick={(e) => handleSave(e, 'private')}
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-muted hover:bg-input-bg rounded-full transition-all"
+                        >
+                            <Save size={16} />
+                            Save Draft
+                        </button>
+
+                        {/* Publish Button */}
+                        <button
+                            type="button"
+                            onClick={(e) => handleSave(e, 'public')}
                             disabled={loading}
                             className="flex items-center gap-2 px-6 py-2 bg-text-main text-background rounded-full hover:opacity-90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-lg shadow-neutral-500/10"
                         >
-                            {loading ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
-                            {initialData.id ? 'Update' : 'Publish'}
+                            {loading ? <Loader2 className="animate-spin" size={18} /> : (initialData.id && initialData.visibility === 'public' ? <Save size={18} /> : <Eye size={18} />)}
+                            {initialData.id && initialData.visibility === 'public' ? 'Update' : 'Publish'}
                         </button>
                     </div>
                 </header>

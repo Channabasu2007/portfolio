@@ -1,22 +1,20 @@
 import BlogForm from '@/components/Dashboard/BlogForm';
 import { getPostData } from '@/lib/blog';
 
-// In Next.js App Router, dynamic pages receive params as a prop.
-// However, getting data for a client component (BlogForm) usually happens server-side here.
-// But fs (lib/blog) works here!
+export const dynamic = 'force-dynamic';
 
 export default async function EditBlogPage({ params }) {
     const { slug } = await params;
-    // slug here is actually the ID or filename based on how we routed,
-    // but in our API routes we used slug as ID. Let's see.
-    // The route is /dashboard/edit/[slug]. 
-    // In lib/blog.js -> getPostData(id) looks for {id}.json.
-
+    // We need to fetch the post data to populate the form
     const post = await getPostData(slug);
 
-    if (!post) {
-        return <div>Post not found</div>;
-    }
+    // Transform post data to match BlogForm expectation if necessary
+    // Assuming getPostData returns the document
+    const initialData = post ? {
+        ...post,
+        id: post._id.toString(), // Ensure ID is string
+        tags: post.tags || [],
+    } : {};
 
-    return <BlogForm initialData={post} />;
+    return <BlogForm initialData={initialData} />;
 }

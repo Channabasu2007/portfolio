@@ -290,25 +290,90 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
 
             {/* Bubble Menu for quick actions */}
             {editor && (
-                <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-                    <div className="flex items-center bg-black/90 backdrop-blur-md text-white rounded-lg overflow-hidden shadow-xl border border-neutral-700">
+                <BubbleMenu editor={editor} tippyOptions={{ duration: 100, maxWidth: 500 }}>
+                    <div className="flex items-center flex-wrap gap-1 bg-black/90 backdrop-blur-md text-white rounded-lg p-1 shadow-xl border border-neutral-700">
+                        {/* Text Styles */}
                         <button
                             onClick={() => editor.chain().focus().toggleBold().run()}
-                            className={`p-2 hover:bg-neutral-700 transition-colors ${editor.isActive('bold') ? 'bg-neutral-700 text-primary' : ''}`}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('bold') ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="Bold"
                         >
                             <Bold size={14} />
                         </button>
                         <button
                             onClick={() => editor.chain().focus().toggleItalic().run()}
-                            className={`p-2 hover:bg-neutral-700 transition-colors ${editor.isActive('italic') ? 'bg-neutral-700 text-primary' : ''}`}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('italic') ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="Italic"
                         >
                             <Italic size={14} />
                         </button>
                         <button
+                            onClick={() => editor.chain().focus().toggleUnderline().run()}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('underline') ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="Underline"
+                        >
+                            <UnderlineIcon size={14} />
+                        </button>
+
+                        <div className="w-px h-4 bg-neutral-700 mx-1" />
+
+                        {/* Headings */}
+                        <button
+                            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('heading', { level: 1 }) ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="H1"
+                        >
+                            <Heading1 size={14} />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('heading', { level: 2 }) ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="H2"
+                        >
+                            <Heading2 size={14} />
+                        </button>
+
+                        <div className="w-px h-4 bg-neutral-700 mx-1" />
+
+                        {/* Alignment */}
+                        <button
+                            onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive({ textAlign: 'left' }) ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="Align Left"
+                        >
+                            <AlignLeft size={14} />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive({ textAlign: 'center' }) ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="Align Center"
+                        >
+                            <AlignCenter size={14} />
+                        </button>
+
+                        <div className="w-px h-4 bg-neutral-700 mx-1" />
+
+                        {/* Lists & Extras */}
+                        <button
+                            onClick={() => editor.chain().focus().toggleBulletList().run()}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('bulletList') ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="Bullet List"
+                        >
+                            <List size={14} />
+                        </button>
+                        <button
                             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                            className={`p-2 hover:bg-neutral-700 transition-colors ${editor.isActive('codeBlock') ? 'bg-neutral-700 text-primary' : ''}`}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('codeBlock') ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="Code Block"
                         >
                             <CodeIcon size={14} />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('blockquote') ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="Quote"
+                        >
+                            <Quote size={14} />
                         </button>
                     </div>
                 </BubbleMenu>

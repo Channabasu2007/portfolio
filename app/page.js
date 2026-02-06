@@ -10,6 +10,7 @@ import { Contact } from "@/components/sections/Contact";
 import { FeaturedBlogs } from "@/components/sections/FeaturedBlogs";
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata = {
   title: "Channabasu Mathad - Full Stack Developer",

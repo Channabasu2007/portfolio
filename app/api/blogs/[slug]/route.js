@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getPostData, savePost, deletePost } from '@/lib/blog';
+import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +34,8 @@ export async function PUT(request, { params }) {
 
         // Ensure we are updating the correct file
         const updatedPost = await savePost({ ...data, id: slug });
+        revalidatePath('/');
+        revalidatePath('/blog');
         return NextResponse.json(updatedPost);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to update post' }, { status: 500 });
@@ -44,6 +47,8 @@ export async function DELETE(request, { params }) {
     const success = await deletePost(slug);
 
     if (success) {
+        revalidatePath('/');
+        revalidatePath('/blog');
         return NextResponse.json({ message: 'Post deleted' });
     } else {
         return NextResponse.json({ error: 'Post not found' }, { status: 404 });
