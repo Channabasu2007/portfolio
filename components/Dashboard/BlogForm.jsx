@@ -151,7 +151,7 @@ export default function BlogForm({ initialData = {} }) {
     return (
         <>
             <Dialogs />
-            <form onSubmit={handleSubmit} className="flex flex-col h-full animate-in fade-in duration-500">
+            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col h-full animate-in fade-in duration-500">
                 {/* Header */}
                 <header className="flex items-center justify-between sticky top-0 bg-background/80 backdrop-blur-xl px-6 py-4 z-40 border-b border-neutral-200/50 dark:border-neutral-800/50">
                     <div className="flex items-center gap-4 flex-1">
