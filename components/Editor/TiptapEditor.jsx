@@ -1,6 +1,7 @@
 "use client";
 
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react';
+import ImageNode from './ImageNode';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
@@ -19,6 +20,7 @@ import {
     List, Heading1, Heading2,
     ImageIcon, Code as CodeIcon, Quote,
     AlignLeft, AlignCenter, AlignRight,
+    Link as LinkIcon,
     Table as TableIcon, Upload
 } from 'lucide-react';
 import { useCallback, useRef, useEffect } from 'react';
@@ -26,7 +28,7 @@ import { useDialogs } from '@/components/ui/Dialogs';
 
 const lowlight = createLowlight(common);
 
-const MenuBar = ({ editor, onAddImage }) => {
+const MenuBar = ({ editor, onAddImage, onSetLink }) => {
     if (!editor) return null;
 
     const addTable = () => {
@@ -54,8 +56,17 @@ const MenuBar = ({ editor, onAddImage }) => {
                 icon={<UnderlineIcon size={18} />}
                 title="Underline"
             />
+            <MenuButton
+                onClick={onSetLink}
+                isActive={editor.isActive('link')}
+                icon={<LinkIcon size={18} />}
+                title="Link"
+            />
 
             <div className="w-px h-6 bg-neutral-200 dark:bg-neutral-800 mx-1 self-center" />
+
+            {/* ... (rest of MenuBar) ... */}
+
 
             {/* Alignment */}
             <MenuButton
@@ -177,6 +188,12 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
         onChangeRef.current = onChange;
     }, [onChange]);
 
+
+
+    // ... (imports remain same)
+
+    // ...
+
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -189,7 +206,31 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
                 lowlight,
                 defaultLanguage: 'javascript',
             }),
-            Image.configure({
+            Image.extend({
+                addAttributes() {
+                    return {
+                        ...this.parent?.(),
+                        width: {
+                            default: null,
+                        },
+                        height: {
+                            default: null,
+                        },
+                        textAlign: { // Add textAlign attribute
+                            default: 'center',
+                            parseHTML: element => element.style.textAlign || 'center',
+                            renderHTML: attributes => {
+                                return {
+                                    style: `text-align: ${attributes.textAlign}`,
+                                };
+                            },
+                        },
+                    };
+                },
+                addNodeView() {
+                    return ReactNodeViewRenderer(ImageNode);
+                },
+            }).configure({
                 inline: false, // false = Block images, better for articles
                 allowBase64: true,
             }),
@@ -201,7 +242,7 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
             }),
             Underline,
             TextAlign.configure({
-                types: ['heading', 'paragraph'],
+                types: ['heading', 'paragraph', 'image'], // Enable text align for images
             }),
             Table.configure({
                 resizable: true,
@@ -273,11 +314,33 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
         }
     }, [editor, promptHandler]);
 
+    const setLink = useCallback(async () => {
+        if (!editor) return;
+
+        const previousUrl = editor.getAttributes('link').href;
+
+        // If already linked, ask to remove or edit? Simple toggle for now: if linked, edit.
+        // Actually, let's just prompt. If empty, unset.
+        const url = await promptHandler('Set Link', 'Enter URL:', previousUrl);
+
+        // cancelled
+        if (url === null) return;
+
+        // empty
+        if (url === '') {
+            editor.chain().focus().extendMarkRange('link').unsetLink().run();
+            return;
+        }
+
+        // update
+        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+    }, [editor, promptHandler]);
+
     return (
         <div className="w-full relative">
             {!onShowPrompt && !editable && <Dialogs />} {/* Render dialogs if standalone */}
 
-            {editable && <MenuBar editor={editor} onAddImage={addImage} />}
+            {editable && <MenuBar editor={editor} onAddImage={addImage} onSetLink={setLink} />}
 
             <div
                 className={editable ? "p-4 md:p-12 min-h-[600px] bg-background group cursor-text w-full focus-within:ring-0 outline-none" : ""}
@@ -313,6 +376,13 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
                             title="Underline"
                         >
                             <UnderlineIcon size={14} />
+                        </button>
+                        <button
+                            onClick={setLink}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('link') ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="Link"
+                        >
+                            <LinkIcon size={14} />
                         </button>
 
                         <div className="w-px h-4 bg-neutral-700 mx-1" />
