@@ -2,6 +2,7 @@ import { getAllPosts, getPostData } from "@/lib/blog";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import ShareButtons from "@/components/Blog/ShareButtons";
+import ArticleContent from "@/components/Blog/ArticleContent";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -180,28 +181,16 @@ export default async function BlogPostPage({ params }) {
         )}
 
         <div className="max-w-column mx-auto px-6">
-          <article
-            className="prose prose-neutral dark:prose-invert prose-lg max-w-none
-                        prose-headings:font-semibold prose-headings:tracking-tight
-                        prose-h1:hidden
-                        prose-p:text-text-main/85 prose-p:leading-7 prose-p:font-normal
-                        prose-a:link-highlight
-                        prose-img:rounded-xl prose-img:my-8
-                        prose-code:text-sm prose-code:bg-neutral-100 dark:prose-code:bg-neutral-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
-                        prose-pre:bg-[#1e1e1e] prose-pre:text-gray-50 prose-pre:rounded-xl prose-pre:border prose-pre:border-neutral-800
-                        [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-inherit [&_pre_code]:font-mono"
-          >
-            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          <ArticleContent content={post.content} />
 
-            <hr className="my-12 border-neutral-100 dark:border-neutral-800" />
+          <hr className="my-12 border-neutral-100 dark:border-neutral-800" />
 
-            <div className="not-prose flex flex-col items-center gap-4">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-text-muted">
-                Share
-              </h3>
-              <ShareButtons title={post.title} />
-            </div>
-          </article>
+          <div className="flex flex-col items-center gap-4">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-text-muted">
+              Share
+            </h3>
+            <ShareButtons title={post.title} />
+          </div>
         </div>
       </main>
       <Footer />
