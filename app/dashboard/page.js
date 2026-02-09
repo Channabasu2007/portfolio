@@ -49,8 +49,8 @@ export default async function DashboardPage() {
                                         <td className="p-4 font-medium text-neutral-900 dark:text-white">{post.title}</td>
                                         <td className="p-4 text-neutral-500 dark:text-neutral-400 text-sm">{new Date(post.date).toLocaleDateString()}</td>
                                         <td className="p-4">
-                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
-                                                Published
+                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${post.visibility === 'private' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400' : 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400'}`}>
+                                                {post.visibility === 'private' ? 'Private' : 'Published'}
                                             </span>
                                         </td>
                                         <td className="p-4 text-right">

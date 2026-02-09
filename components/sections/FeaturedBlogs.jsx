@@ -4,9 +4,12 @@ import { ArrowRight } from 'lucide-react';
 
 export async function FeaturedBlogs() {
     const allPosts = await getAllPosts();
+    // Filter for public posts only
+    const publicPosts = allPosts.filter(post => post.visibility === 'public');
+
     // Prioritize featured posts, then fallback to date
-    const featuredPosts = allPosts.filter(post => post.featured);
-    const otherPosts = allPosts.filter(post => !post.featured);
+    const featuredPosts = publicPosts.filter(post => post.featured);
+    const otherPosts = publicPosts.filter(post => !post.featured);
 
     // Combine: Featured first, then others. Slice top 3.
     const posts = [...featuredPosts, ...otherPosts].slice(0, 3);

@@ -211,12 +211,12 @@ export default function BlogForm({ initialData = {} }) {
                         {/* Publish Button */}
                         <button
                             type="button"
-                            onClick={(e) => handleSave(e, 'public')}
+                            onClick={(e) => handleSave(e, formData.visibility)}
                             disabled={loading}
                             className="flex items-center gap-2 px-6 py-2 bg-text-main text-background rounded-full hover:opacity-90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-lg shadow-neutral-500/10"
                         >
-                            {loading ? <Loader2 className="animate-spin" size={18} /> : (initialData.id && initialData.visibility === 'public' ? <Save size={18} /> : <Eye size={18} />)}
-                            {initialData.id && initialData.visibility === 'public' ? 'Update' : 'Publish'}
+                            {loading ? <Loader2 className="animate-spin" size={18} /> : (formData.visibility === 'public' ? (initialData.id ? <Save size={18} /> : <Eye size={18} />) : <Save size={18} />)}
+                            {formData.visibility === 'public' ? (initialData.id ? 'Update' : 'Publish') : 'Save'}
                         </button>
                     </div>
                 </header>
