@@ -57,6 +57,8 @@ export default function ArticleContent({ content }) {
             ref={contentRef}
             className="article-content prose prose-neutral dark:prose-invert prose-lg max-w-none
         prose-headings:font-semibold prose-headings:tracking-tight
+        prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4
+        prose-h4:text-xl prose-h4:mt-8 prose-h4:mb-3
         prose-p:text-text-main/85 prose-p:leading-7 prose-p:font-normal
         prose-a:link-highlight
         prose-img:rounded-xl prose-img:my-8

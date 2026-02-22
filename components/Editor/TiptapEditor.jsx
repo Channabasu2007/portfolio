@@ -2,6 +2,7 @@
 
 import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react';
 import ImageNode from './ImageNode';
+import CodeBlock from './CodeBlock';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
@@ -17,11 +18,11 @@ import { TableHeader } from '@tiptap/extension-table-header';
 import { common, createLowlight } from 'lowlight';
 import {
     Bold, Italic, Underline as UnderlineIcon,
-    List, Heading1, Heading2,
+    List, Heading1, Heading2, Heading3, Heading4,
     ImageIcon, Code as CodeIcon, Quote,
     AlignLeft, AlignCenter, AlignRight,
     Link as LinkIcon,
-    Table as TableIcon, Upload
+    Table as TableIcon, Upload, Copy, Check
 } from 'lucide-react';
 import { useCallback, useRef, useEffect } from 'react';
 import { useDialogs } from '@/components/ui/Dialogs';
@@ -102,6 +103,18 @@ const MenuBar = ({ editor, onAddImage, onSetLink }) => {
                 isActive={editor.isActive('heading', { level: 2 })}
                 icon={<Heading2 size={18} />}
                 title="Heading 2"
+            />
+            <MenuButton
+                onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+                isActive={editor.isActive('heading', { level: 3 })}
+                icon={<Heading3 size={18} />}
+                title="Heading 3"
+            />
+            <MenuButton
+                onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+                isActive={editor.isActive('heading', { level: 4 })}
+                icon={<Heading4 size={18} />}
+                title="Heading 4"
             />
 
             <div className="w-px h-6 bg-neutral-200 dark:bg-neutral-800 mx-1 self-center" />
@@ -198,13 +211,17 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
         extensions: [
             StarterKit.configure({
                 heading: {
-                    levels: [1, 2, 3],
+                    levels: [1, 2, 3, 4],
                 },
                 codeBlock: false, // We use lowlight
             }),
             CodeBlockLowlight.configure({
                 lowlight,
                 defaultLanguage: 'javascript',
+            }).extend({
+                addNodeView() {
+                    return ReactNodeViewRenderer(CodeBlock);
+                },
             }),
             Image.extend({
                 addAttributes() {
@@ -401,6 +418,20 @@ export default function Tiptap({ content, onChange, editable = true, onShowPromp
                             title="H2"
                         >
                             <Heading2 size={14} />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('heading', { level: 3 }) ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="H3"
+                        >
+                            <Heading3 size={14} />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+                            className={`p-1.5 hover:bg-neutral-700 rounded transition-colors ${editor.isActive('heading', { level: 4 }) ? 'bg-neutral-700 text-primary' : ''}`}
+                            title="H4"
+                        >
+                            <Heading4 size={14} />
                         </button>
 
                         <div className="w-px h-4 bg-neutral-700 mx-1" />
