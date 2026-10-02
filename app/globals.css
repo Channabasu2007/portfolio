@@ -6,9 +6,9 @@
 
 :root {
   /* Dynamic Vibe Palette - Light Mode */
-  --color-primary: #FACC15; /* Keeping the yellow but making it pop */
+  --color-primary: #ffcc00; /* Keeping the yellow but making it pop */
   --color-primary-dark: #EAB308;
-  --color-background: #ffffff;
+  --color-background: #eceacf;
   --color-surface: #fafafa;
   --color-surface-hover: #f5f5f5;
   --color-text-main: #18181b;

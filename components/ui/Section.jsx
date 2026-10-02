@@ -5,7 +5,7 @@ export function Section({ id, children, className, borderTop = false }) {
         <section
             id={id}
             className={twMerge(
-                "mb-24 md:mb-32 scroll-mt-40",
+                "mb-24 md:mb-32 scroll-mt-40 md:scroll-mt-44",
                 borderTop && "border-t border-gray-100 pt-20",
                 className
             )}

@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="w-full max-w-column px-6 md:px-0 pt-40 pb-32">
+      <main className="w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 pt-40 pb-32">
         <Hero />
         <About />
         <Skills />

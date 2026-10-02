@@ -19,13 +19,13 @@ export function Skills() {
     return (
         <Section id="skills" borderTop>
             <SectionGrid title="Expertise">
-                <div className="space-y-8">
+                <div className="max-w-3xl space-y-8 sm:space-y-10">
                     {skills.map((item) => (
                         <div key={item.title}>
-                            <h3 className="text-sm font-medium text-text-main mb-2">
+                            <h3 className="mb-2 text-base font-medium text-text-main sm:text-lg">
                                 {item.title}
                             </h3>
-                            <p className="text-text-muted text-sm leading-relaxed">
+                            <p className="text-base leading-7 text-text-muted sm:text-lg sm:leading-8 lg:text-xl lg:leading-9">
                                 {item.desc}
                             </p>
                         </div>
@@ -35,3 +35,4 @@ export function Skills() {
         </Section>
     );
 }
+
