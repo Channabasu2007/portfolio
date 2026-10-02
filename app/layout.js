@@ -1,9 +1,9 @@
+import { Analytics } from "@vercel/analytics/next"
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { jsonLd } from "./jsonld";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,7 +56,7 @@ export const metadata = {
     "Freelance Web Developer India",
     "Modern Web Solutions",
     "Technical Blogger",
-    "React.js Developer Bengalurimport { Analytics } from "@vercel/analytics/next"u",
+    "React.js Developer Bengaluru",
     "PostgreSQL and Prisma Developer",
     "LLM Integration Developer",
     "Computer Vision for Web"
